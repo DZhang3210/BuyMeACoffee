@@ -1,6 +1,10 @@
+'use client'
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMugHot } from "@fortawesome/free-solid-svg-icons";
+import {logIn, signIn} from 'next-auth/react'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -11,7 +15,38 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <header className="">
+          <div className="flex justify-between items-center max-w-3xl mx-auto px-4 py-4 mb-16"> 
+            <Link href = {'/'} className="flex gap-1 items-center">
+              <FontAwesomeIcon icon={faMugHot} className="h-8"/>
+              <span className="mt-2 font-bold">
+                Buy me a coffee
+              </span>
+            </Link>
+            <nav className="mt-2 flex gap-6 items-center">
+              <Link href = "/about">About</Link>
+              <Link href = "/about">FAQ </Link>
+              <Link href = "/about">Contact</Link>
+              <div className="flex gap-4">
+                <button 
+                  onClick = {() => signIn('google')}
+                  className="border-2 border-gray-300 rounded-full p-2 px-4"
+                >
+                  Login
+                </button>
+                <button 
+                  onClick = {() => logIn('google')}
+                  className="bg-yellow-300 rounded-full p-2 px-4">
+                  Signup
+                </button>
+              </div>
+              
+            </nav>
+          </div>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
