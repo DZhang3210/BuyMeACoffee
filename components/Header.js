@@ -5,10 +5,14 @@ import { User } from 'lucide-react'
 import { signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 
 const Header = ({session}) => {
+  // console.log(session.user)
+  const email = session?.user.email
+  console.log(email)
   const firstName = session?.user?.name.split(' ')[0]
+  const [showDropdown, setShowDropdown] = useState(false)
   // const username = session?.user?.email
   // .replace(/[^a-z]/g,'');
   return (
@@ -21,9 +25,11 @@ const Header = ({session}) => {
               </span>
             </Link>
             <nav className="mt-2 flex gap-6 items-center">
-              <Link href = "/about">About</Link>
-              <Link href = "/about">FAQ </Link>
-              <Link href = "/about">Contact</Link>
+              <div className = "hidden md:flex gap-5">
+                <Link href = "/about">About</Link>
+                <Link href = "/about">FAQ</Link>
+                <Link href = "/about">Contact</Link>
+              </div>
               <div className="flex gap-4">
                 {!session ? (
                   <>
@@ -40,23 +46,36 @@ const Header = ({session}) => {
                   </button>
                   </>
                 ):(
-                  <div className='flex items-center rounded-full bg-gray-300'>
-                  <Link
-                    href = {"/profile"} 
-                    className='p-1 flex gap-1 items-center'
-                  >
-                    <Image 
-                      src = {session?.user?.image} alt = "avatar" height = {35} width = {35}
-                      className='rounded-full'  
-                    />
-                    {firstName}
-                  </Link>
+                  <div className='relative flex items-center rounded-full bg-gray-300'>
+                  <div 
+                    onClick = {() => {
+                        setShowDropdown(showDropdown => !showDropdown)
+                      }}
+                    >
+                    <Link
+                      href = {"/profile?email="+email} 
+                      className='p-1 flex gap-1 items-center pointer-events-none sm:pointer-events-auto'
+                    >
+                      <Image 
+                        src = {session?.user?.image} alt = "avatar" height = {35} width = {35}
+                        className='rounded-full'  
+                      />
+                      {firstName}
+                    </Link>
+                    {showDropdown && <div className='absolute sm:hidden flex flex-col gap-1 text-lg w-full  border border-t-0 shadow transition bg-white'>
+                      <Link href = "/about">About</Link>
+                      <Link href = {"/profile?email="+email}>Update Profile</Link>
+                      <Link href = "/about">FAQ </Link>
+                      <Link href = "/about">Contact</Link>
+                    </div>}
+                  </div>
                   <button 
                     onClick = {() => signOut()}
                     className="border-2 bg-yellow-300 rounded-full p-2 px-4"
                   >
                     Logout
                   </button>
+  
                   </div>
                 )
                 

@@ -11,7 +11,7 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Header session = {session}/>
-        {JSON.stringify(session)}
+        {/* {JSON.stringify(session)} */}
         {children}
       </body>
     </html>

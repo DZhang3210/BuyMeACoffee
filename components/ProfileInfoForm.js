@@ -1,37 +1,56 @@
 'use client'
 
-
 import {saveProfile} from '@/actions/profileInfoActions'
-import React from 'react'
+import ProfileImageForm from './ProfileImageForm'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const ProfileInfoForm = () => {
+  const [userName, setUserName] = useState('')
+  const [displayName, setDisplayName] = useState('')
+  const [bio, setBio] = useState('')
+  const [avatarURL, setAvatarURL] = useState('')
+  const [coverURL, setCoverURL] = useState('')
+
   async function handleFormAction(e){
     const formData = new FormData(e.target);
     const response = await saveProfile(formData)
   }
+  useEffect((()=>{
+    async function getProfile (){
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email')
+        if(email){
+            const response = await axios.get(`/api/profile/${email}`) 
+            const {username, displayName, bio, avatarURL, coverURL} = response
+            setUserName(username)
+            setDisplayName(displayName)
+            setBio(bio)
+            setAvatarURL(avatarURL)
+            setCoverURL(coverURL)
+            console.log("RESPONSE",response.data)   
+        }
+    }
+    getProfile()
+  }),[])
+  
   return (
     <form
         onSubmit = {handleFormAction}
     >
-    <div className='bg-gray-200 p-4 rounded-lg'>
-        <div className='bg-gray-300 size-24 rounded-full'>
-            avatar
-        </div>
-        <div>
-            cover image
-        </div>
-        </div>
+        <ProfileImageForm/>
+    
         <div>
             <label className = "block mt-4" htmlFor='usernameIn'>username:</label>
-            <input name = "username" type = "text" placeholder='username' id = "usernameIn"></input>
+            <input name = "username" value = {userName} onChange = {(e) => setUserName(e.target.value)}type = "text" placeholder='username' id = "usernameIn"></input>
         </div>
         <div>
             <label className = "block mt-4" htmlFor='displayNameIn'>display name:</label>
-            <input name = "displayName" type = "text" placeholder='display name' id ="displayNameIn"></input>
+            <input name = "displayName" value = {displayName} onChange = {(e) => setDisplayName(e.target.value)} type = "text" placeholder='display name' id ="displayNameIn"></input>
         </div>
         <div>
             <label className = "block mt-4" htmlFor='bioIn'>bio:</label>
-            <textarea name = "bio" placeholder='bio' id ="bioIn"></textarea>
+            <textarea name = "bio" value = {bio} onChange = {(e) => setBio(e.target.value)} placeholder='bio' id ="bioIn"></textarea>
         </div>
         <div>
             <button 

@@ -1,5 +1,5 @@
 'use server'
-import { ProfileInfoModel } from '@/models/ProfileInfo'
+import { ProfileInfo} from '@/models/ProfileInfo'
 import ProfileInfoForm from '@/components/ProfileInfoForm'
 import { getServerSession } from 'next-auth'
 import React from 'react'

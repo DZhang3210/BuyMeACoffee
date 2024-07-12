@@ -10,4 +10,4 @@ const ProfileInfoSchema = new Schema({
     coverURL: {type:String}
 }, {timestamps: true})
 
-export const ProfileInfoModel = models?.ProfileInfo || model('ProfileInfo', ProfileInfoSchema)
+export const ProfileInfo = models?.ProfileInfo || model('ProfileInfo', ProfileInfoSchema)
