@@ -1,13 +1,18 @@
+'use client'
 import axios from 'axios'
 import { Pen, User } from 'lucide-react'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const ProfileImageForm = ({avatarURL = "", coverURL = ""}) => {
     const avatarRef = useRef()
     const coverRef = useRef()
     const [avatarImg, setAvatarImg] = useState(avatarURL)
     const [coverImg, setCoverImg] = useState(coverURL)
-    
+    // console.log("HELLO\n\n\n\n")
+    // useEffect(()=>{setAvatarImg(avatarURL); setCoverImg(coverURL)},[])
+    useEffect(()=>{setAvatarImg(avatarURL)},[avatarURL])
+    useEffect(()=>{setCoverImg(coverURL)},[coverURL])
+    // console.log('IMAGE FORM',avatarURL, coverURL)
     
     async function upload(e){
         e.preventDefault()
@@ -32,8 +37,8 @@ const ProfileImageForm = ({avatarURL = "", coverURL = ""}) => {
             <img src = {coverImg} alt = "avatar logo" className='absolute inset-0 object-fill w-full'/>
         }
 
-        <input onChange = {upload} ref = {coverRef} type = "file" className='hidden' id = "coverRef"/>
-        <input onChange = {upload} ref = {avatarRef} type = "file" className='hidden' id = "avatarRef"/>
+        <input onChange = {upload} ref = {coverRef} defaultValue = {coverImg} type = "file" className='hidden' id = "coverRef"/>
+        <input onChange = {upload} ref = {avatarRef} defaultValue = {avatarImg} type = "file" className='hidden' id = "avatarRef"/>
         <input type = "text" name = "avatarURL" value = {avatarImg} style={{ display: 'none' }} className='hidden' readOnly/>
         <input type = "text" name = "coverURL" value = {coverImg} style={{ display: 'none' }} className='hidden' readOnly/>
 

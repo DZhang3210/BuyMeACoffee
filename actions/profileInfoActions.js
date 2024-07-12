@@ -5,8 +5,9 @@ import mongoose from "mongoose";
 import {getServerSession} from "next-auth";
 
 export async function saveProfile(formData){
-  // console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n')
-  // console.log(formData)
+  console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n')
+  console.log(formData)
+  
   await mongoose.connect(process.env.MONGODB_URI);
 
   const session = await getServerSession(authOptions);

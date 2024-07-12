@@ -4,6 +4,7 @@ import {saveProfile} from '@/actions/profileInfoActions'
 import ProfileImageForm from './ProfileImageForm'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { redirect } from 'next/dist/server/api-utils';
 
 const ProfileInfoForm = () => {
   const [userName, setUserName] = useState('')
@@ -13,6 +14,7 @@ const ProfileInfoForm = () => {
   const [coverURL, setCoverURL] = useState('')
 
   async function handleFormAction(e){
+    e.preventDefault()
     const formData = new FormData(e.target);
     const response = await saveProfile(formData)
   }
@@ -40,7 +42,7 @@ const ProfileInfoForm = () => {
         onSubmit = {handleFormAction}
     >
         <ProfileImageForm avatarURL = {avatarURL} coverURL = {coverURL}/>
-    
+            
         <div>
             <label className = "block mt-4" htmlFor='usernameIn'>username:</label>
             <input name = "username" defaultValue = {userName} type = "text" placeholder='username' id = "usernameIn"></input>
