@@ -7,6 +7,9 @@ import axios from 'axios';
 import { redirect } from 'next/dist/server/api-utils';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Terminal } from 'lucide-react';
+import FadeIn from '@/animWrappers/FadeIn';
+import ProfileInfoFormSkeleton from '@/skeletons/ProfileInfoFormSkeleton';
+import { Skeleton } from './ui/skeleton';
 
 const ProfileInfoForm = () => {
   const [userName, setUserName] = useState('')
@@ -15,6 +18,7 @@ const ProfileInfoForm = () => {
   const [avatarURL, setAvatarURL] = useState('')
   const [coverURL, setCoverURL] = useState('')
   const [showPop, setShowPop] = useState(false)
+  const [load, setLoading] = useState(true)
 
   async function handleFormAction(e){
     e.preventDefault()
@@ -27,7 +31,7 @@ const ProfileInfoForm = () => {
         console.log(err)
     }
   }
-  useEffect((()=>{
+  useEffect(()=>{
     async function getProfile (){
         const urlParams = new URLSearchParams(window.location.search);
         const email = urlParams.get('email')
@@ -40,37 +44,49 @@ const ProfileInfoForm = () => {
             setBio(bio)
             setAvatarURL(avatarURL)
             setCoverURL(coverURL)
+            setLoading(false)
             console.log("RESPONSE",response.data)   
         }
     }
+
     getProfile()
-  }),[])
+  },[])
   
   return (
-    <>
-    {showPop && <Alert className = "fixed bottom-0 left-auto right-auto">
-        <Terminal className="h-4 w-4" />
-        <AlertTitle>Heads up!</AlertTitle>
-        <AlertDescription>
-            You can add components and dependencies to your app using the cli.
-        </AlertDescription>
-    </Alert>}
+    load ?
+    <ProfileInfoFormSkeleton/>
+    :(
+    <div>
+        {showPop && 
+        <div className = "w-[30rem] fixed top-0 right-0 left-0 mx-auto">
+        <FadeIn>
+            <Alert className = "bg-yellow-300">
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>You're Saved!</AlertTitle>
+                <AlertDescription>
+                    Your changes are now live!
+                </AlertDescription>
+            </Alert>
+        </FadeIn>
+        </div>
+        }
     <form
         onSubmit = {handleFormAction}
     >
         <ProfileImageForm avatarURL = {avatarURL} coverURL = {coverURL}/>
-            
-        <div>
-            <label className = "block mt-4" htmlFor='usernameIn'>username:</label>
-            <input name = "username" defaultValue = {userName} type = "text" placeholder='username' id = "usernameIn" className='w-full border'></input>
+        <div className='flex gap-3'>
+            <div className='grow'>
+                <label className = "block mt-4 font-semibold" htmlFor='usernameIn'>Username:</label>
+                <input name = "username" defaultValue = {userName} type = "text" placeholder='username' id = "usernameIn" className='w-full border p-1 indent-2 rounded-lg border-yellow-500'></input>
+            </div>
+            <div className='grow'>
+                <label className = "block mt-4 font-semibold" htmlFor='displayNameIn'>Display Name:</label>
+                <input name = "displayName" defaultValue = {displayName} type = "text" placeholder='display name' id ="displayNameIn" className='w-full border p-1 indent-2 rounded-lg border-yellow-500'></input>
+            </div>
         </div>
         <div>
-            <label className = "block mt-4" htmlFor='displayNameIn'>display name:</label>
-            <input name = "displayName" defaultValue = {displayName} type = "text" placeholder='display name' id ="displayNameIn" className='w-full border'></input>
-        </div>
-        <div>
-            <label className = "block mt-4" htmlFor='bioIn'>bio:</label>
-            <textarea name = "bio" defaultValue = {bio} placeholder='bio' id ="bioIn" className='w-full border'></textarea>
+            <label className = "block mt-4 font-semibold indent-2" htmlFor='bioIn'>Biography:</label>
+            <textarea name = "bio" defaultValue = {bio} placeholder='Bio' id ="bioIn" className='w-full border h-40 p-1 indent-2 rounded-lg border-yellow-500'></textarea>
         </div>
         <div>
             <button 
@@ -81,7 +97,8 @@ const ProfileInfoForm = () => {
             </button>
         </div>
     </form>
-    </>
+    </div>
+    )
   )
 }
 
