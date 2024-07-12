@@ -2,11 +2,11 @@ import axios from 'axios'
 import { Pen, User } from 'lucide-react'
 import React, { useRef, useState } from 'react'
 
-const ProfileImageForm = () => {
+const ProfileImageForm = ({avatarURL = "", coverURL = ""}) => {
     const avatarRef = useRef()
     const coverRef = useRef()
-    const [avatarImg, setAvatarImg] = useState('')
-    const [coverImg, setCoverImg] = useState('')
+    const [avatarImg, setAvatarImg] = useState(avatarURL)
+    const [coverImg, setCoverImg] = useState(coverURL)
     
     
     async function upload(e){

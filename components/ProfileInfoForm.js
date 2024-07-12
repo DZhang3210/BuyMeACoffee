@@ -22,8 +22,9 @@ const ProfileInfoForm = () => {
         const email = urlParams.get('email')
         if(email){
             const response = await axios.get(`/api/profile/${email}`) 
-            const {username, displayName, bio, avatarURL, coverURL} = response
+            const {username, displayName, bio, avatarURL, coverURL} = response.data
             setUserName(username)
+            console.log('username',username)
             setDisplayName(displayName)
             setBio(bio)
             setAvatarURL(avatarURL)
@@ -38,19 +39,19 @@ const ProfileInfoForm = () => {
     <form
         onSubmit = {handleFormAction}
     >
-        <ProfileImageForm/>
+        <ProfileImageForm avatarURL = {avatarURL} coverURL = {coverURL}/>
     
         <div>
             <label className = "block mt-4" htmlFor='usernameIn'>username:</label>
-            <input name = "username" value = {userName} onChange = {(e) => setUserName(e.target.value)}type = "text" placeholder='username' id = "usernameIn"></input>
+            <input name = "username" defaultValue = {userName} type = "text" placeholder='username' id = "usernameIn"></input>
         </div>
         <div>
             <label className = "block mt-4" htmlFor='displayNameIn'>display name:</label>
-            <input name = "displayName" value = {displayName} onChange = {(e) => setDisplayName(e.target.value)} type = "text" placeholder='display name' id ="displayNameIn"></input>
+            <input name = "displayName" defaultValue = {displayName} type = "text" placeholder='display name' id ="displayNameIn"></input>
         </div>
         <div>
             <label className = "block mt-4" htmlFor='bioIn'>bio:</label>
-            <textarea name = "bio" value = {bio} onChange = {(e) => setBio(e.target.value)} placeholder='bio' id ="bioIn"></textarea>
+            <textarea name = "bio" defaultValue = {bio} placeholder='bio' id ="bioIn"></textarea>
         </div>
         <div>
             <button 
