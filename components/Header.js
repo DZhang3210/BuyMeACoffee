@@ -16,8 +16,8 @@ const Header = ({session}) => {
   // const username = session?.user?.email
   // .replace(/[^a-z]/g,'');
   return (
-    <header className="">
-          <div className="flex justify-between items-center max-w-3xl mx-auto px-4 py-4 mb-16"> 
+    <header className="sticky top-0 z-10 bg-white">
+          <div className="flex justify-between items-center max-w-3xl mx-auto px-4 py-4 mb-8"> 
             <Link href = {'/'} className="flex gap-1 items-center">
               <FontAwesomeIcon icon={faMugHot} className="h-8"/>
               <span className="mt-2 font-bold">

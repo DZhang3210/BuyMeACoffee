@@ -8,7 +8,7 @@ import ProfilePage from '@/components/ProfilePage'
 const Profile = async () => {
 //   const session = await getServerSession(authOptions)
   return (
-    <div className='max-w-3xl mx-auto p-4'>
+    <div className='max-w-3xl mx-auto p-4 min-h-screen'>
       <ProfilePage/>
     </div>
   )

@@ -77,6 +77,12 @@ const ProfilePage = () => {
             >
                 Edit
             </Link>
+            <Link 
+                href = {"/"+email}
+                className='bg-yellow-300 px-4 py-2 rounded-full mt-4 ml-4'
+            >
+                View Profile
+            </Link>
         </div>
     </div>
     </div>
