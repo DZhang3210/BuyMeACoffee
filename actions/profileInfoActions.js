@@ -3,6 +3,7 @@ import {authOptions} from "@/lib/authOptions";
 import {ProfileInfo} from "@/models/ProfileInfo";
 import mongoose from "mongoose";
 import {getServerSession} from "next-auth";
+import { redirect } from "next/dist/server/api-utils";
 
 export async function saveProfile(formData){
   console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n')
@@ -27,4 +28,19 @@ export async function saveProfile(formData){
   }
 
   return true;
+}
+
+export async function getProfile({email}){
+  if(email){
+      try{
+          await mongoose.connect(process.env.MONGODB_URI)
+          const result = JSON.stringify(await ProfileInfo.findOne({email: email})) 
+          const {username, displayName, bio, avatarURL, coverURL} = result.data
+          return {username, displayName, bio, avatarURL, coverURL}
+      } catch(err){
+          redirect('/profile/edit?email='+email)
+      }
+  }else{
+    redirect('/profile/edit?email='+email)
+  }
 }

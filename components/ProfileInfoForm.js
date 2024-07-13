@@ -10,8 +10,11 @@ import { Terminal } from 'lucide-react';
 import FadeIn from '@/animWrappers/FadeIn';
 import ProfileInfoFormSkeleton from '@/skeletons/ProfileInfoFormSkeleton';
 import { Skeleton } from './ui/skeleton';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const ProfileInfoForm = () => {
+  const router = useRouter()
   const [userName, setUserName] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [bio, setBio] = useState('')
@@ -19,6 +22,13 @@ const ProfileInfoForm = () => {
   const [coverURL, setCoverURL] = useState('')
   const [showPop, setShowPop] = useState(false)
   const [load, setLoading] = useState(true)
+//   const { data: session, status } = useSession()
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const email = urlParams.get('email')
+//   if(status === "unauthenticated" || session.email !== email) {
+//     router.push('/')
+//   }
 
   async function handleFormAction(e){
     e.preventDefault()
@@ -31,21 +41,25 @@ const ProfileInfoForm = () => {
         console.log(err)
     }
   }
+
   useEffect(()=>{
     async function getProfile (){
-        const urlParams = new URLSearchParams(window.location.search);
-        const email = urlParams.get('email')
-        if(email){
-            const response = await axios.get(`/api/profile/${email}`) 
-            const {username, displayName, bio, avatarURL, coverURL} = response.data
-            setUserName(username)
-            console.log('username',username)
-            setDisplayName(displayName)
-            setBio(bio)
-            setAvatarURL(avatarURL)
-            setCoverURL(coverURL)
+        try{
+            if(email){
+                const response = await axios.get(`/api/profile/${email}`) 
+                const {username, displayName, bio, avatarURL, coverURL} = response.data
+                setUserName(username)
+                console.log('username',username)
+                setDisplayName(displayName)
+                setBio(bio)
+                setAvatarURL(avatarURL)
+                setCoverURL(coverURL)
+                setLoading(false)
+                console.log("RESPONSE",response.data)   
+            }
+        }catch(err){
+            console.log("No account with email")
             setLoading(false)
-            console.log("RESPONSE",response.data)   
         }
     }
 

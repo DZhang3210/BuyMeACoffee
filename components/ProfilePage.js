@@ -3,6 +3,8 @@
 import ProfileInfoFormSkeleton from '@/skeletons/ProfileInfoFormSkeleton'
 import axios from 'axios'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const ProfilePage = () => {
@@ -15,22 +17,28 @@ const ProfilePage = () => {
     const [showPop, setShowPop] = useState(false)
     const [load, setLoading] = useState(true)
     const [email, setEmail] = useState()
+    const router = useRouter();
     useEffect(()=>{
         async function getProfile (){
             const urlParams = new URLSearchParams(window.location.search);
             const email = urlParams.get('email')
             if(email){
-                const response = await axios.get(`/api/profile/${email}`) 
-                const {username, displayName, bio, avatarURL, coverURL} = response.data
-                setUserName(username)
-                console.log('username',username)
-                setDisplayName(displayName)
-                setBio(bio)
-                setAvatarURL(avatarURL)
-                setCoverURL(coverURL)
-                setLoading(false)
-                setEmail(email)
-                console.log("RESPONSE",response.data)   
+                try{
+                    const response = await axios.get(`/api/profile/${email}`) 
+                    const {username, displayName, bio, avatarURL, coverURL} = response.data
+                    setUserName(username)
+                    console.log('username',username)
+                    setDisplayName(displayName)
+                    setBio(bio)
+                    setAvatarURL(avatarURL)
+                    setCoverURL(coverURL)
+                    setLoading(false)
+                    setEmail(email)
+                    console.log("RESPONSE",response.data)
+                } catch(err){
+                    router.push('/profile/edit?email=' + email);
+                    // router.push('/about')
+                }
             }
         }
 

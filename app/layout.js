@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import "./globals.css";
 import Header from "@/components/Header";
 import { authOptions } from "@/lib/authOptions";
+import { SessionProvider } from "next-auth/react";
 
 
 export default async function RootLayout({ children }) {
@@ -10,9 +11,9 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header session = {session}/>
-        {/* {JSON.stringify(session)} */}
-        {children}
+          <Header session = {session}/>
+          {/* {JSON.stringify(session)} */}
+          {children}
       </body>
     </html>
   );
