@@ -58,8 +58,8 @@ const ProfileInfoForm = () => {
     :(
     <div>
         {showPop && 
-        <div className = "w-[30rem] fixed top-0 right-0 left-0 mx-auto">
-        <FadeIn>
+        <div className = "w-[30rem] fixed top-0 right-0 left-0 mx-auto z-20">
+        <FadeIn className= "pointer-events-none">
             <Alert className = "bg-yellow-300">
                 <Terminal className="h-4 w-4" />
                 <AlertTitle>You're Saved!</AlertTitle>
