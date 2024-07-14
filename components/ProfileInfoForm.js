@@ -66,10 +66,7 @@ const ProfileInfoForm = () => {
     getProfile()
   },[])
   
-  return (
-    load ?
-    <ProfileInfoFormSkeleton/>
-    :(
+  return ((
     <div>
         {showPop && 
         <div className = "w-[30rem] fixed top-0 right-0 left-0 mx-auto z-20">

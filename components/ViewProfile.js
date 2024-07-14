@@ -3,7 +3,7 @@ import PaymentForm from '@/components/PaymentForm'
 import ProfileInfoFormSkeleton from '@/skeletons/ProfileInfoFormSkeleton'
 import ViewProfileSkeleton from '@/skeletons/ViewProfileSkeleton'
 import axios from 'axios'
-import { Coffee } from 'lucide-react'
+import { Coffee, User } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -33,10 +33,7 @@ const ViewProfile = ({email}) => {
     }
     fetchUser()
   }, [email])
-  return (
-    load ?
-    <ViewProfileSkeleton/>
-    :(
+  return ((
     <section className='bg-slate-200 pb-10'>
     <div>
         <div className='relative bg-gray-200 h-60'>

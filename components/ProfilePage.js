@@ -2,6 +2,7 @@
 
 import ProfileInfoFormSkeleton from '@/skeletons/ProfileInfoFormSkeleton'
 import axios from 'axios'
+import { User } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
@@ -44,10 +45,7 @@ const ProfilePage = () => {
 
         getProfile()
         },[])
-  return (
-    load ?
-    <ProfileInfoFormSkeleton/>
-    :(
+  return ((
     <div>
     <div>
         <div className='relative bg-gray-200 p-4 rounded-lg h-40'>
