@@ -78,3 +78,16 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.crypto {
+  @apply p-3 bg-gray-200 rounded-lg
+}
+.crypto span {
+  @apply font-semibold
+}
+.crypto p {
+  @apply uppercase text-sm
+}
+.crypto.active{
+  @apply border border-yellow-400 bg-yellow-300/10
+}
